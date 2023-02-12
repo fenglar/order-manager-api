@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    show-sql: true
+  datasource:
+    url:
+    username:
+    password:
+
