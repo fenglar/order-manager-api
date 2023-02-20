@@ -52,7 +52,6 @@ public class OrderService {
             orderItem.setQuantity(createOrderItemDto.getQuantity());
             orderItem.setPriceItem(createOrderItemDto.getPriceItem());
 
-            //ProductDto product = stockInvoker.getProduct(createOrderItemDto.getProductId());
             orderItem.setTotalAmount(createOrderItemDto.getTotalAmount());
             totalAmount.add(orderItem.getTotalAmount());
             orderItemRepository.save(orderItem);
@@ -88,9 +87,8 @@ public class OrderService {
             cancelledProducts.put(productId, quantity);
         }
         stockInvoker.updateStock(cancelledProducts);
-        //how to send it?
 
-        orderRepository.save(order);
+        orderMapper.orderToOrderSummaryDto(orderRepository.save(order));
     }
 
     public OrderSummaryDto getOrder(String orderNumber) {

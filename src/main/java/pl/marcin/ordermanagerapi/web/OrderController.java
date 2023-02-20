@@ -22,9 +22,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderNumber}")
-    public ResponseEntity<Void> cancelOrder(@PathVariable String orderNumber) {
+    public ResponseEntity<String> cancelOrder(@PathVariable String orderNumber) {
         orderService.cancelOrder(orderNumber);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Order has been cancelled");
     }
 
     @GetMapping("/{orderNumber}")

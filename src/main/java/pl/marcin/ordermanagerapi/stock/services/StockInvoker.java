@@ -1,7 +1,6 @@
 package pl.marcin.ordermanagerapi.stock.services;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +26,6 @@ public interface StockInvoker {
     @PostMapping("/api/stock/{productId}")
     StockDto reserveQuantityOfProduct(@PathVariable Long productId, @PathVariable Long quantity);
 
-    @PatchMapping("/api/stock/{productId}/{quantity}")
+    @PatchMapping("/api/stock/cancel")
     StockDto updateStock(Map<Long, Long> cancelledProducts);
 }

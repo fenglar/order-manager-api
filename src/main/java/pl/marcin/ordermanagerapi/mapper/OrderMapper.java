@@ -2,6 +2,7 @@ package pl.marcin.ordermanagerapi.mapper;
 
 import org.mapstruct.Mapper;
 import pl.marcin.ordermanagerapi.dto.OrderItemSummaryDto;
+import pl.marcin.ordermanagerapi.dto.OrderSummaryDto;
 import pl.marcin.ordermanagerapi.entity.Order;
 import pl.marcin.ordermanagerapi.entity.OrderItem;
 
@@ -13,5 +14,6 @@ public interface OrderMapper {
     OrderItem orderItemSummaryDtoToOrderItem(OrderItemSummaryDto orderItemSummaryDto);
     List<OrderItemSummaryDto> orderItemListToOrderItemSummaryDtoList(List<OrderItem> orderItem);
     List<OrderItem> orderItemSummaryDtoListToOrderItemList(List<OrderItemSummaryDto> orderItemSummaryDto);
+    OrderSummaryDto orderToOrderSummaryDto(Order order);
 
 }
