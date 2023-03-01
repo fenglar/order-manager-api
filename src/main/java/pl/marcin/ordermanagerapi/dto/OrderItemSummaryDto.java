@@ -16,4 +16,6 @@ public class OrderItemSummaryDto {
     private Long quantity;
     private BigDecimal amount;
     private BigDecimal totalAmount;
+
+    private Long orderNumber;
 }

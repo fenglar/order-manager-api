@@ -18,7 +18,14 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
+    @Column(name = "order_id", updatable = false, insertable = false)
+    private Long orderId;
+
+    // TODO: Remove the fetch and check the behavior of the framework, it'll run more queries for each OrderItem.order
+    //       with Lazy fetch, it'll run only when and for the object that we call orderItem.order.
+    //       Just fetch EAGER, will not solve the N+1 issue, it is actually create more queries.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
     @NotNull

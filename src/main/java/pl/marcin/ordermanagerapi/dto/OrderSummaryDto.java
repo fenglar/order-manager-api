@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @AllArgsConstructor
 public class OrderSummaryDto {
     private Long orderid;
-    private AtomicLong orderNumber;
+    private Long orderNumber;
     private BigDecimal totalAmount;
     private Status status;
     private List<OrderItemSummaryDto> orderItems;

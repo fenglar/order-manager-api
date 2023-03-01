@@ -7,36 +7,29 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-
 @Configuration
 public class TestContainerInitializer implements ApplicationContextInitializer<GenericApplicationContext> {
 
-    @Override
-    public void initialize(GenericApplicationContext applicationContext) {
-        new MySqlDatabaseInitializer().initialize(applicationContext);
+    private static final DockerImageName MY_SQL_IMAGE = DockerImageName.parse("mysql:8.0.32")
+        .asCompatibleSubstituteFor("testdb2");
+    private static final MySQLContainer MY_SQL_CONTAINER = (MySQLContainer) new MySQLContainer(MY_SQL_IMAGE)
+        .withDatabaseName("testdb2")
+        .withUsername("sa")
+        .withPassword("sa")
+        .withReuse(true);
+//        .withInitScript("prepare.sql");
+
+    static {
+        MY_SQL_CONTAINER.start();
     }
 
-    static class MySqlDatabaseInitializer {
-        private static final DockerImageName mySqlImage = DockerImageName.parse("mysql:8.0.32")
-                .asCompatibleSubstituteFor("testdb2");
-        private static final MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer(mySqlImage)
-                .withDatabaseName("testdb2")
-                .withUsername("sa")
-                .withPassword("sa")
-                .withInitScript("data-h2.sql")
-                ;
-
-        static {
-            mySQLContainer.start();
-        }
-
-        public void initialize(GenericApplicationContext applicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.jdbc-url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.url=" + mySQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + mySQLContainer.getUsername(),
-                    "spring.datasource.password=" + mySQLContainer.getPassword()
-            ).applyTo(applicationContext.getEnvironment());
-        }
+    @Override
+    public void initialize(GenericApplicationContext applicationContext) {
+        TestPropertyValues.of(
+            "spring.datasource.jdbc-url=" + MY_SQL_CONTAINER.getJdbcUrl(),
+            "spring.datasource.url=" + MY_SQL_CONTAINER.getJdbcUrl(),
+            "spring.datasource.username=" + MY_SQL_CONTAINER.getUsername(),
+            "spring.datasource.password=" + MY_SQL_CONTAINER.getPassword()
+        ).applyTo(applicationContext.getEnvironment());
     }
 }
